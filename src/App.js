@@ -1,7 +1,10 @@
 import React,{useState,useEffect} from 'react'
 import { commerce } from './lib/commerce'
 import { BrowserRouter as Router , Switch, Route } from 'react-router-dom'
-import { Products, Navbar,Cart
+import { 
+  Products, Navbar,
+  Cart,Checkout,
+  NotFound,
 
 } from './Component'
 import Footer from './Component/Footer/Footer';
@@ -61,6 +64,10 @@ const handleEmptyCart = async () => {
             handleEmptyCart={handleEmptyCart}
             />
           </Route>
+          <Route exact path="/checkout">
+              <Checkout />
+          </Route>
+          <Route component={NotFound} />
       </Switch>
       {/* <Footer /> */}
     </div>
