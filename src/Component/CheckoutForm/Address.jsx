@@ -1,10 +1,10 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { InputLabel, Select, MenuItem, Button, Grid, Typography } from '@material-ui/core'
 import { useForm, FormProvider } from 'react-hook-form'
 import FormInput from './CustomTextField'
 import { commerce } from '../../lib/commerce'
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-const AddressForm = () => {
+const AddressForm = ({checkoutToken}) => {
 const methods = useForm()
 const [shippingCountry, setShippingCountry] = useState([])
 const [Country, setCountry] = useState('')
@@ -13,13 +13,24 @@ const [shippingSubDivition, setshippingSubDivition] = useState([])
 const [shippingOptions, setshippingOption] = useState('')
 const [Options, setOptions] = useState([])
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+const fetchShippingCountries = async (checkoutTokenId) => {
+    const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId);
+    console.log(countries)
+    setShippingCountry(countries)
+}
+
+useEffect(()=> {
+    fetchShippingCountries(checkoutToken.id)
+},[])
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return (
         <>
             <Typography variant="h6" gutterBottom>
                 Shipping Address
             </Typography>
             <FormProvider {...methods}>
-                <form onSubmit={""}>
+                <form >
                     <Grid container spacing={3}>
                         <FormInput
                         required
@@ -52,7 +63,7 @@ const [Options, setOptions] = useState([])
                         name="zip"
                         label="ZIP / Postal code"
                         />
-                        <Grid item xs={12} sm={6}>
+                        {/* <Grid item xs={12} sm={6}>
                             <InputLabel>Shipping Country</InputLabel>
                             <Select value={} fullWidth onChange>
                                 <MenuItem key={} value={}>
@@ -77,7 +88,7 @@ const [Options, setOptions] = useState([])
                                     Select Me
                                 </MenuItem>
                             </Select>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </form>
             </FormProvider>

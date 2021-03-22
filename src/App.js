@@ -65,7 +65,7 @@ const handleEmptyCart = async () => {
             />
           </Route>
           <Route exact path="/checkout">
-              <Checkout />
+              <Checkout cart={cart} />
           </Route>
           <Route component={NotFound} />
       </Switch>
