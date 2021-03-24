@@ -14,9 +14,12 @@ const [shippingOptions, setshippingOption] = useState('')
 const [Options, setOptions] = useState([])
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const fetchShippingCountries = async (checkoutTokenId) => {
-    const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId);
-    console.log(countries)
+    const { countries  } = await commerce.services.localeListCountries(checkoutTokenId);
+
+    console.log('country list', countries )
     setShippingCountry(countries)
+    setCountry(Object.keys(countries)[0]);
+    console.log('countyr code 01',Object.keys(countries)[0] )
 }
 
 useEffect(()=> {
@@ -63,15 +66,19 @@ useEffect(()=> {
                         name="zip"
                         label="ZIP / Postal code"
                         />
-                        {/* <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={6}>
                             <InputLabel>Shipping Country</InputLabel>
-                            <Select value={} fullWidth onChange>
-                                <MenuItem key={} value={}>
+                            <Select value={shippingCountry} fullWidth onChange={(e)=> setShippingCountry(e.target.value)}>
+                                {
+                                   console.log( Object.entries(shippingCountry))
+                                }
+
+                                {/* <MenuItem key={} value={}>
                                     Select Me
-                                </MenuItem>
+                                </MenuItem> */}
                             </Select>
                         </Grid>
-
+ {/*
                         <Grid item xs={12} sm={6}>
                             <InputLabel>Shipping SubDivition</InputLabel>
                             <Select value={} fullWidth onChange>
