@@ -8,13 +8,15 @@ const AddressForm = ({checkoutToken}) => {
 const methods = useForm()
 const [shippingCountry, setShippingCountry] = useState([])
 const [Country, setCountry] = useState('')
-const [SubDivition, setSubDivition] = useState('')
 const [shippingSubDivition, setshippingSubDivition] = useState([])
+const [SubDivition, setSubDivition] = useState('')
 const [shippingOptions, setshippingOption] = useState('')
 const [Options, setOptions] = useState([])
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const countries =  Object.entries(shippingCountry).map(([code, name])=>({id:code, label: name}) )
 const subdivisons =  Object.entries(shippingSubDivition).map(([code, name])=>({id:code, label: name}) )
+console.log('shipping options',  Options)
+const opt = Options.map((sO)=> ({id: sO.id, label: `${sO.description} - (${sO.price.formatted_with_symbol})` }))
 
 const fetchShippingCountries = async (checkoutTokenId) => {
     const { countries  } = await commerce.services.localeListCountries(checkoutTokenId);
@@ -26,7 +28,11 @@ const fetchSubDivition = async (countryCode) => {
     setshippingSubDivition(subdivisions )
     setSubDivition(Object.keys(subdivisions )[0]);
 }
-
+const fetchShippinOption= async (checkoutToken,country, region=null)=> {
+    const shipingOpt = await  commerce.checkout.getShippingOptions(checkoutToken, {country, region});
+    setOptions(shipingOpt);
+    setshippingOption(shipingOpt[0].id);
+}
 
 useEffect(()=> {
     fetchShippingCountries(checkoutToken.id)
@@ -36,6 +42,9 @@ useEffect(()=> {
     if(Country) fetchSubDivition(Country)
 },[Country])
 
+useEffect(()=> {
+    if(SubDivition) fetchShippinOption(checkoutToken.id,Country, SubDivition )
+},[SubDivition])
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     return (
@@ -106,15 +115,20 @@ useEffect(()=> {
                                }
                             </Select>
                         </Grid>
- {/*
+ 
                         <Grid item xs={12} sm={6}>
                             <InputLabel>Shipping Options</InputLabel>
-                            <Select value={} fullWidth onChange>
-                                <MenuItem key={} value={}>
-                                    Select Me
+                            <Select value={shippingOptions} fullWidth onChange={(e)=> setshippingOption(e.target.value)}>
+                            {
+                                opt.map((item)=> (
+                                    <MenuItem key={item.id} value={item.id}>
+                                    {item.label}
+                                
                                 </MenuItem>
+                                ))
+                            }
                             </Select>
-                        </Grid> */}
+                        </Grid>
                     </Grid>
                 </form>
             </FormProvider>
