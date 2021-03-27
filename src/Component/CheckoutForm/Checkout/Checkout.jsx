@@ -9,8 +9,9 @@ import AddressForm from '../Address';
 const steps = [ 'Shipping address', 'Payment details'];
 
 //>>>>>>>>>>>
-const Checkout = ({cart}) => {
+const Checkout = ({ cart, order,onCaptureCheckout,error }) => {
     const classes = useStyles()
+    const [shippingData, setshippingData] = useState({})
     const [activeStep, setActiveStep] = useState(0)
     const [checkoutToken, setCheckoutToken] = useState(null)
 
@@ -18,7 +19,7 @@ useEffect(()=> {
     const generateToken = async () => {
         try{
             const token = await commerce.checkout.generateToken(cart.id,{ type: 'cart' })
-            console.log(token)
+      
             setCheckoutToken(token)
         }catch(error){
 
@@ -27,6 +28,13 @@ useEffect(()=> {
     generateToken();
 },[cart]);
 
+const nextStep = () => setActiveStep((prevActiveStep) => prevActiveStep + 1)
+const BackStep = () => setActiveStep((prevActiveStep) => prevActiveStep - 1)
+
+const next =(data)=> {
+    setshippingData(data)
+    nextStep()
+}
 
 
 
@@ -36,7 +44,12 @@ useEffect(()=> {
         </div>
     )
     const Form = () => activeStep == 0 ? <AddressForm 
-    checkoutToken={checkoutToken} /> : <PaymentForm />
+    checkoutToken={checkoutToken} next={next} /> :
+     <PaymentForm
+      shippingData={shippingData} BackStep={BackStep}
+      onCaptureCheckout={onCaptureCheckout} checkoutToken={checkoutToken} 
+      nextStep={nextStep}
+      />
 
 
 
