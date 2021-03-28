@@ -16,7 +16,7 @@ const Navbar = ({totalItems}) => {
                     
                         <Typography component={Link} to="/" variant="h6" className={classes.title} color="inherit">
                             <img src={logo} alt="Commerce.js" height="25px" className={classes.image} />
-                            Commerce.js
+                            captaion shop
                         </Typography>
                     <div className={classes.grow} />
                     {

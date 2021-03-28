@@ -58,12 +58,12 @@ useEffect(()=> {
                     <Grid container spacing={3}>
                         <FormInput
                         required
-                        name="firstname"
+                        name="firstName"
                         label="First Name"
                         />
                          <FormInput
                         required
-                        name="lastname"
+                        name="lastName"
                         label="Last Name"
                         />
                          <FormInput
@@ -95,7 +95,7 @@ useEffect(()=> {
                                     <MenuItem key={item.id} value={item.id}>
                                     {item.label}
                                 
-                                </MenuItem>
+                                    </MenuItem>
                                    ))
                                }
 
