@@ -84,7 +84,7 @@ if(error){
     </>
 }
 
-    const Form = () => activeStep == 0 ? <AddressForm 
+    const Form = () => activeStep === 0 ? <AddressForm 
     checkoutToken={checkoutToken} next={next} /> :
      <PaymentForm
      timeout={timeout}
@@ -110,7 +110,7 @@ if(error){
                         </Step>
                     ))}
                 </Stepper>
-                { activeStep == steps.length ? <Confirmation /> : checkoutToken && <Form /> }
+                { activeStep === steps.length ? <Confirmation /> : checkoutToken && <Form /> }
             </Paper>
         </main>
        

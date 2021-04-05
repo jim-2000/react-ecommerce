@@ -90,7 +90,7 @@ const handleCaptureCheckout = async ( CheckouTokenId, newOrder)=> {
           </Route>
           <Route component={NotFound} />
       </Switch>
-      {/* <Footer /> */}
+      <Footer />
     </div>
     </Router>
   

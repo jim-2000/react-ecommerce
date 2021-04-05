@@ -1,8 +1,6 @@
 import React from 'react'
 import {Grid} from '@material-ui/core'
 import Product from './Product'
-import pro1 from '../asset/product-1.jpg';
-import pro2 from '../asset/product-2.jpg';
 import useStyles from './productsStyle';
 
 
